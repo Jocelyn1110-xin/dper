@@ -13,7 +13,7 @@ int main(int argc,char** argv) {
     const string txtPath = argv[2];
 
     const string quote = "\"";
-    const string command ="\"" + quote + genPath + "\"" + " >" + "\"" + txtPath + "\"" + quote;
+    const string command =quote + quote + genPath + quote + " >" + quote + txtPath + quote + quote;
 
     const int code = system(command.c_str());
 
