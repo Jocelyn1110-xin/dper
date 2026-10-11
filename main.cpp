@@ -11,7 +11,7 @@ int main(int argc,char** argv) {
 
     const string genPath = argv[1];
 
-    const string command = genPath + " > out1.txt";
+    const string command = "\"" + genPath +"\"" + " > out1.txt";
 
     const int code = system(command.c_str());
 
