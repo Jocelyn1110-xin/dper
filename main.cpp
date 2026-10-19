@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include <fstream>
 using namespace std;
 
 int main(int argc,char** argv) {
@@ -27,6 +28,20 @@ int main(int argc,char** argv) {
     const string othe = quote + quote + othPath + quote + " <" + quote + txtPath + quote + " >" + quote + "brute.txt" + quote + quote;
     const int code2 = system(othe.c_str());
     cout << "other solve exit code: " << code2 << '\n';
+
+    ifstream in1("std.txt");
+    if(!in1)cout << "ERROR!\n";
+    string s1;
+    in1 >> s1;
+    cout << "std =" << s1 << '\n';
+    ifstream in2("brute.txt");
+    if(!in2)cout << "ERROR\n";
+    string s2;
+    in2 >> s2;
+    cout << "brute =" << s2 << '\n';
+    
+    if(s1==s2)cout << "MATCH!\n";
+    else cout << "MISMATCH\n";
 
     return 0;
 }
