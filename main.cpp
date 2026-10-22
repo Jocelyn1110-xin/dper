@@ -15,6 +15,13 @@ int isValidCount_(const string& count){
     return (int)ans;
 }
 
+bool readAnswer(const string& path,string& out){
+    ifstream in(path);
+    if(!in)return false;
+    if(!(in >> out))return false;
+    return true;
+}
+
 int runCommand(const string& programPath,const string& inputFile,const string& outputFile){
     const string quote = "\"";
 
@@ -65,22 +72,18 @@ int main(int argc,char** argv) {
 
         cout << i << " : ";
 
-        ifstream in1("std.txt");
-        if(!in1){
+        string s1;
+        if(!readAnswer("std.txt",s1)){
             cout << "ERROR!\n";
             return 1;
         }
-        string s1;
-        in1 >> s1;
         cout << "std = " << s1 << "; ";
 
-        ifstream in2("brute.txt");
-        if(!in2){
-            cout << "ERROR!\n";
+        string s2;
+        if(!readAnswer("brute.txt",s2)){
+            cout << "ERROR\n";
             return 1;
         }
-        string s2;
-        in2 >> s2;
         cout << "brute = " << s2 << "  ";
         
         if(s1==s2)cout << "MATCH!\n";
