@@ -1,5 +1,6 @@
 #include "parseCnt.h"
 #include <string>
+using namespace std;
 
 int parseCount(const string& count){
     long long ans = 0;

@@ -1,5 +1,4 @@
 #pragma once
 #include <string>
-using namespace std;
 
-bool readAnswer(const string& path,string& out);
+bool readAnswer(const std::string& path,std::string& out);

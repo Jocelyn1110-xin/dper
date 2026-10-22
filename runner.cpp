@@ -1,6 +1,7 @@
 #include "runner.h"
 #include <string>
 #include <cstdlib>
+using namespace std;
 
 int runCommand(const string& programPath,const string& inputFile,const string& outputFile){
     const string quote = "\"";
