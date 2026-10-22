@@ -3,25 +3,9 @@
 #include <string>
 #include <fstream>
 #include "runner.h"
+#include "parseCnt.h"
+#include "readAns.h"
 using namespace std;
-
-int parseCount(const string& count){
-    long long ans = 0;
-    for(int i = 0;i < (int)count.length(); i++){
-        if(count[i] >= '0' && count[i] <= '9')ans = ans * 10 + (count[i] - '0');
-        else return 0;
-
-        if(ans > 1000000)return 0;
-    }
-    return (int)ans;
-}
-
-bool readAnswer(const string& path,string& out){
-    ifstream in(path);
-    if(!in)return false;
-    if(!(in >> out))return false;
-    return true;
-}
 
 int main(int argc,char** argv) {
     if(argc < 6){
