@@ -4,14 +4,15 @@
 #include <fstream>
 using namespace std;
 
-bool seek_s(const string& count){
-    int t = 0; //t :处理全为0的情况
+int isValidCount_(const string& count){
+    long long ans = 0;
     for(int i = 0;i < (int)count.length(); i++){
-        if(count[i] < '0' || count[i] > '9')return false;
-        if(t == 0 && count[i] != '0')t = 1;
+        if(count[i] >= '0' && count[i] <= '9')ans = ans * 10 + (count[i] - '0');
+        else return 0;
+
+        if(ans > 1000000)return 0;
     }
-    if(t) return true;
-    else return false;
+    return (int)ans;
 }
 
 int runCommand(const string& programPath,const string& inputFile,const string& outputFile){
@@ -30,14 +31,12 @@ int main(int argc,char** argv) {
         return 1;
     }
 
-    int cnt = 0;
-
     const string corPath = argv[1];
     const string othPath = argv[2];
     const string genPath = argv[3];
     const string txtPath = argv[4];
-    if(seek_s(argv[5])) cnt = stoi(argv[5]);
-    else {
+    const int cnt = isValidCount_(argv[5]);
+    if(cnt == 0){
         cout << "count ERROR!\n";
         return 1;
     }
@@ -46,15 +45,20 @@ int main(int argc,char** argv) {
 
         int code;
 
-        if(code = runCommand(genPath, "", txtPath)){
+        code = runCommand(genPath, "", txtPath);
+        if(code){
             cout << "round " << i << ": gen.exe failed (exit code " << code << ")\n";
             return 1;
         }
-        if(code = runCommand(corPath, txtPath, "std.txt")){
+
+        code = runCommand(corPath, txtPath, "std.txt");
+        if(code){
             cout << "round " << i << ": std.exe failed (exit code " << code << ")\n";
             return 1;
         }
-        if(code = runCommand(othPath, txtPath, "brute.txt")){
+
+        code = runCommand(othPath, txtPath, "brute.txt");
+        if(code){
             cout << "round " << i << ": brute.exe failed (exit code " << code << ")\n";
             return 1;
         }
