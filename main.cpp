@@ -3,13 +3,15 @@
 #include <string>
 #include <fstream>
 using namespace std;
-const string quote = "\"";
 
-void runCommand(const string& programPath,const string& inputFile,const string& outputFile){
+int runCommand(const string& programPath,const string& inputFile,const string& outputFile){
+    const string quote = "\"";
+
     string command = quote + quote + programPath + quote;
     if(!inputFile.empty())command = command + " < " + quote + inputFile + quote;
     command = command + " > " + quote + outputFile + quote + quote;
-    system(command.c_str());
+
+    return system(command.c_str());
 }
 
 int main(int argc,char** argv) {
@@ -25,10 +27,19 @@ int main(int argc,char** argv) {
     const int cnt = stoi(argv[5]);
 
     for(int i = 1;i <= cnt; i++){
-        
-        runCommand(genPath, "", txtPath);
-        runCommand(corPath, txtPath, "std.txt");
-        runCommand(othPath, txtPath, "brute.txt");
+
+        if(runCommand(genPath, "", txtPath)){
+            cout << "round " << i << ": gen.exe failed (exit code 1)\n";
+            return 1;
+        }
+        if(runCommand(corPath, txtPath, "std.txt")){
+            cout << "round " << i << ": std.exe failed (exit code 1)\n";
+            return 1;
+        }
+        if(runCommand(othPath, txtPath, "brute.txt")){
+            cout << "round " << i << ": brute.exe failed (exit code 1)\n";
+            return 1;
+        }
 
         cout << i << " : ";
 
