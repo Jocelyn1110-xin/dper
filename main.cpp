@@ -2,9 +2,10 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include "runner.h"
 using namespace std;
 
-int isValidCount_(const string& count){
+int parseCount(const string& count){
     long long ans = 0;
     for(int i = 0;i < (int)count.length(); i++){
         if(count[i] >= '0' && count[i] <= '9')ans = ans * 10 + (count[i] - '0');
@@ -22,16 +23,6 @@ bool readAnswer(const string& path,string& out){
     return true;
 }
 
-int runCommand(const string& programPath,const string& inputFile,const string& outputFile){
-    const string quote = "\"";
-
-    string command = quote + quote + programPath + quote;
-    if(!inputFile.empty())command = command + " < " + quote + inputFile + quote;
-    command = command + " > " + quote + outputFile + quote + quote;
-
-    return system(command.c_str());
-}
-
 int main(int argc,char** argv) {
     if(argc < 6){
         cout << "usage: dper <correctSolve.exe> <otherSolve.exe> <generator.exe> <data.txt> count\n";
@@ -42,7 +33,7 @@ int main(int argc,char** argv) {
     const string othPath = argv[2];
     const string genPath = argv[3];
     const string txtPath = argv[4];
-    const int cnt = isValidCount_(argv[5]);
+    const int cnt = parseCount(argv[5]);
     if(cnt == 0){
         cout << "count ERROR!\n";
         return 1;
@@ -50,9 +41,7 @@ int main(int argc,char** argv) {
 
     for(int i = 1;i <= cnt; i++){
 
-        int code;
-
-        code = runCommand(genPath, "", txtPath);
+        int code = runCommand(genPath, "", txtPath);
         if(code){
             cout << "round " << i << ": gen.exe failed (exit code " << code << ")\n";
             return 1;
@@ -74,14 +63,14 @@ int main(int argc,char** argv) {
 
         string s1;
         if(!readAnswer("std.txt",s1)){
-            cout << "ERROR!\n";
+            cout << "ERROR: can't read std.txt\n";
             return 1;
         }
         cout << "std = " << s1 << "; ";
 
         string s2;
         if(!readAnswer("brute.txt",s2)){
-            cout << "ERROR\n";
+            cout << "ERROR: can't read brute.txt\n";
             return 1;
         }
         cout << "brute = " << s2 << "  ";
