@@ -5,6 +5,12 @@
 #include "readAns.h"
 using namespace std;
 
+void clearProgressLine(){
+    cout << '\r';
+    cout << string(40,' ');
+    cout << '\r';
+}
+
 int main(int argc,char** argv) {
     if(argc < 6){
         cout << "usage: dper <correctSolve.exe> <otherSolve.exe> <generator.exe> <data.txt> count\n";
@@ -25,30 +31,35 @@ int main(int argc,char** argv) {
 
         int code = runCommand(genPath, "", txtPath);
         if(code){
+            clearProgressLine();
             cout << "round " << i << ": gen.exe failed (exit code " << code << ")\n";
             return 1;
         }
 
         code = runCommand(corPath, txtPath, "std.txt");
         if(code){
+            clearProgressLine();
             cout << "round " << i << ": std.exe failed (exit code " << code << ")\n";
             return 1;
         }
 
         code = runCommand(othPath, txtPath, "brute.txt");
         if(code){
+            clearProgressLine();
             cout << "round " << i << ": brute.exe failed (exit code " << code << ")\n";
             return 1;
         }
 
         string s1;
         if(!readAnswer("std.txt",s1)){
+            clearProgressLine();
             cout << "ERROR: can't read std.txt\n";
             return 1;
         }
 
         string s2;
         if(!readAnswer("brute.txt",s2)){
+            clearProgressLine();
             cout << "ERROR: can't read brute.txt\n";
             return 1;
         }
@@ -57,7 +68,8 @@ int main(int argc,char** argv) {
             cout << '\r' << i << '/' << cnt << flush;
         }
         else {
-            cout << "\r===========================\n";
+            clearProgressLine();
+            cout << "===========================\n";
             cout << "MISMATCH at round " << i << '\n';
             cout << "std = " << s1 << '\n';
             cout << "brute = " << s2 << '\n';
@@ -65,7 +77,8 @@ int main(int argc,char** argv) {
             return 2;
         }
     }
-    cout << "\rAll " << cnt << " sets of data have passed!\n";
+    clearProgressLine();
+    cout << "All " << cnt << " sets of data have passed!\n";
 
     return 0;
 }
