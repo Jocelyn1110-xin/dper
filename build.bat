@@ -8,6 +8,7 @@ if errorlevel 1 goto failed
 g++ -std=c++20 -O2 -Wall -Wextra std.cpp -o std.exe
 if errorlevel 1 goto failed
 g++ -std=c++20 -O2 -Wall -Wextra brute.cpp -o brute.exe
+if errorlevel 1 goto failed
 
 echo.
 echo Build OK
