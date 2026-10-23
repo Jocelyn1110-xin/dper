@@ -9,14 +9,10 @@ bool readAnswer(const string& path,string& out){
     if(!in)return false;
     string tok;
     bool hasAny = false;
-    int k = 0;
     while(in >> tok){
-        if(!hasAny && tok != "")hasAny = true;
-        if(k == 0){
-            out += tok;
-            k = 1;
-        }
-        else out += " " + tok;
+        if(hasAny)out += " ";
+        out += tok;
+        hasAny = true;
     }
     return hasAny;
 }

@@ -41,29 +41,31 @@ int main(int argc,char** argv) {
             return 1;
         }
 
-        cout << i << " : ";
-
         string s1;
         if(!readAnswer("std.txt",s1)){
             cout << "ERROR: can't read std.txt\n";
             return 1;
         }
-        cout << "std = " << s1 << "; ";
 
         string s2;
         if(!readAnswer("brute.txt",s2)){
             cout << "ERROR: can't read brute.txt\n";
             return 1;
         }
-        cout << "brute = " << s2 << "  ";
         
-        if(s1==s2)cout << "MATCH!\n";
+        if(s1==s2){
+            cout << '\r' << i << '/' << cnt << flush;
+        }
         else {
-            cout << "MISMATCH!\n";
+            cout << "\r===========================\n";
+            cout << "MISMATCH at round " << i << '\n';
+            cout << "std = " << s1 << '\n';
+            cout << "brute = " << s2 << '\n';
+            cout << "===========================\n";
             return 2;
         }
     }
-    cout << "All " << cnt << " sets of data have passed!\n";
+    cout << "\rAll " << cnt << " sets of data have passed!\n";
 
     return 0;
 }
